@@ -1,4 +1,4 @@
-#include "neuralentwork.h"
+#include "neuralnetwork.h"
 #include <math.h>
 
 #define NR_END 1
@@ -6,8 +6,7 @@
 NetworkNeural Matrix;			// Pre-instantiate
 //Matrix Multiplication Routine
 // C = A*B
-void NetworkNeural::MultiplyMatrix(float* A, float* B, int m, int p, int n, float* C)
-{
+void NetworkNeural::MultiplyMatrix(float* A, float* B, int m, int p, int n, float* C) {
 	// A = input matrix (m x p)
 	// B = input matrix (p x n)
 	// m = number of rows in A
@@ -24,8 +23,7 @@ void NetworkNeural::MultiplyMatrix(float* A, float* B, int m, int p, int n, floa
 		}
 }
 
-void NetworkNeural::Print(float* A, int m, int n, String label)
-{
+void NetworkNeural::Print(float* A, int m, int n, String label) {
 	// A = input matrix (m x n)
 	int i, j;
 	Serial.println();
@@ -41,16 +39,27 @@ void NetworkNeural::Print(float* A, int m, int n, String label)
 	}
 }
 
-/*float NetworkNeural::Sigmoid(float x)
-{
-     float exp_value;
+void NetworkNeural::Sigmoid(float* X, int m, int n, float* Y) {
+	   float exp_value;
      float return_value;
+		 for(int i=0; i<m; i++) {
+			 for(int j = 0; j < n; j++){
+		     // Exponential calculation
+		     exp_value = exp((double) -X[i *n + j]);
+		     //Final sigmoid value
+		     return_value = 1 / (1 + exp_value);
+				 Y[i *n + j] = return_value;
+		 	 }
+	 	 }
+}
 
-     // Exponential calculation
-     exp_value = exp((double) -x);
-
-     //Final sigmoid value
-     return_value = 1 / (1 + exp_value);
-
-     return return_value;
-}*/
+float NetworkNeural::MaxMatrix(float* X, int m, int n) {
+   float max=-32000;
+	 int num_elements = m*n;
+   for (int i=0; i<num_elements; i++) {
+		 if (X[i]>max) {
+		    max=X[i];
+		 }
+   }
+   return max;
+}
